@@ -15,7 +15,7 @@ client.on('message#SexManiac', function (nick, text, message) {
     fn = plugins[i];
     if (typeof fn === 'function') {
       try {
-        ret = fn(nick, text, message);
+        ret = fn(nick, text, message, client);
         if (ret !== undefined && ret !== false) {
           break;
         }
