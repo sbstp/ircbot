@@ -14,9 +14,13 @@ client.on('message#SexManiac', function (nick, text, message) {
   for (var i = 0; i < plugins.length; i++) {
     fn = plugins[i];
     if (typeof fn === 'function') {
-      ret = fn(nick, text, message);
-      if (ret !== undefined && ret !== false) {
-        break;
+      try {
+        ret = fn(nick, text, message);
+        if (ret !== undefined && ret !== false) {
+          break;
+        }
+      } catch (e) {
+        console.log(e);
       }
     }
   };
