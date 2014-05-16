@@ -4,4 +4,3 @@ module.exports = function (nick, text, message) {
     return parseInt(match[1], 10) + parseInt(match[2], 10);
   }
 };
-//aaa

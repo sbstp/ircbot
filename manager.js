@@ -1,8 +1,9 @@
-var gaze = require('gaze');
 var glob = require('glob');
 var path = require('path');
+var watch = require('node-watch');
+var fs = require('fs');
 
-var basepath = path.join(__dirname, 'plugins/*.js');
+var basepath = path.join(__dirname, 'plugins');
 
 var plugins = {};
 
@@ -28,31 +29,24 @@ function reloadPlugin(path) {
 /*
  * Load default plugins.
  */
-glob.sync(basepath).forEach(function (path) {
+glob.sync(path.join(basepath, '*.js')).forEach(function (path) {
+  console.log(path, 'initial load');
   loadPlugin(path);
 });
 
 /*
- * Got to use polling for now, default watch does not seem to work
- * properly.
+ * Watch plugins folders.
  */
-gaze(basepath, {mode: 'poll', interval: '500'}, function (err, watcher) {
-
-  watcher.on('changed', function (path) {
-    console.log('changed', path);
-    reloadPlugin(path);
+watch(basepath, function (filename) {
+  fs.exists(filename, function (exists) {
+    if (exists) {
+      console.log(filename, 'added or modified');
+      reloadPlugin(filename);
+    } else {
+      console.log(filename, 'deleted');
+      unloadPlugin(filename);
+    }
   });
-
-  watcher.on('added', function (path) {
-    console.log('added', path);
-    loadPlugin(path);
-  });
-
-  watcher.on('deleted', function (path) {
-    console.log('deleted', path);
-    unloadPlugin(path);
-  });
-
 });
 
 exports.getPlugins = function () {
