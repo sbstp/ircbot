@@ -2,7 +2,9 @@
 
 An IRC bot that's able to live-reload its components.
 
-## core.json
+## Configuration
+
+### core.json
 The core configuration of the bot. Does not get reloaded dynamically.
 This file should be placed alongside `config.json`, in the repository root.
 ```json
@@ -23,7 +25,11 @@ This file should be placed alongside `config.json`, in the repository root.
 }
 ```
 
-## config.json
+### config.json
 The dynamic configuration file. It is freeform, and it's up to
 your plugins to decide what to do with it. I will be reloaded when
 it updates, and trigger all the plugins to reload with it.
+
+## Writing plugins
+
+See [plugins/example.js](plugins/example.js).
