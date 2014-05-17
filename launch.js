@@ -11,7 +11,7 @@ core.confpath = path.join(__dirname, core.confpath);
 
 // Initialize the bot's connection.
 var bot = new irc.Client(core.server, core.nickname, {
-  port: core.port,
+  port: core.port || 6667,
   realName: core.realname,
   channels: [core.channel],
 });
